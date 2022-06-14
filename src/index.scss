@@ -41,6 +41,10 @@ header {
     li {
       margin-right: 30px;
       list-style-type: none;
+      cursor: pointer;
+    }
+    img {
+      margin-right: 10px;
     }
   }
 }
@@ -74,11 +78,7 @@ header {
 
 .cards {
   display: flex;
-}
-
-.favourite {
-  position: absolute;
-  cursor: pointer;
+  flex-wrap: wrap;
 }
 
 .cardBottom {
@@ -90,16 +90,6 @@ header {
 .cardPrice {
   display: flex;
   flex-direction: column;
-}
-
-.button {
-  background: #fff;
-  border: 1px solid #f2f2f2;
-  box-sizing: border-box;
-  border-radius: 8px;
-  height: 32px;
-  width: 32px;
-  cursor: pointer;
 }
 
 .overlay {

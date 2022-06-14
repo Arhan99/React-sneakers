@@ -1,35 +1,33 @@
+import { useEffect, useState } from "react";
 import Card from "./components/Card";
 import Drawer from "./components/Drawer";
 import Header from "./components/Header";
 
-const arr = [
-  {
-    title: "Мужские Кроссовки Nike Blazer Mid Suede",
-    price: 12990,
-    imageUrl: "/img/sneakers/1.jpg",
-  },
-  {
-    title: "Мужские Кроссовки Nike Air Max 270",
-    price: 14590,
-    imageUrl: "/img/sneakers/2.jpg",
-  },
-  {
-    title: "Мужские Кроссовки Nike Blazer Mid Suede",
-    price: 8499,
-    imageUrl: "/img/sneakers/3.jpg",
-  },
-  {
-    title: "Кроссовки Puma X Aka Boku Future Rider",
-    price: 9999,
-    imageUrl: "/img/sneakers/4.jpg",
-  },
-];
-
 function App() {
+  const [items, setItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [cartOpened, setCartOpened] = useState(false);
+
+  useEffect(() => {
+    fetch("https://62a88ab6ec36bf40bda8526e.mockapi.io/items")
+      .then(res => {
+        return res.json();
+      })
+      .then(json => {
+        setItems(json);
+      });
+  });
+
+  const onAddToCart = obj => {
+    setCartItems(prevCartItems => [...prevCartItems, obj]);
+  };
+
   return (
     <div className="wrapper">
-      <Drawer />
-      <Header />
+      {cartOpened && (
+        <Drawer items={cartItems} onClose={() => setCartOpened(false)} />
+      )}
+      <Header onClickCart={() => setCartOpened(true)} />
       <div className="content">
         <div className="contentHeader">
           <h1>Все кроссовки</h1>
@@ -39,8 +37,14 @@ function App() {
           </div>
         </div>
         <div className="cards">
-          {arr.map(obj => (
-            <Card title={obj.title} price={obj.price} imageUrl={obj.imageUrl} />
+          {items.map(item => (
+            <Card
+              title={item.title}
+              price={item.price}
+              imageUrl={item.imageUrl}
+              onFavourite={() => console.log("Добавили закладки")}
+              onPlus={obj => onAddToCart(obj)}
+            />
           ))}
         </div>
       </div>
